@@ -1,8 +1,12 @@
-$notfounds = Get-Content C:\xampp\apache\logs\access.log | Select-String "404"
+function addressGetter($page, $code, $browser){
+
+$notfounds = Get-Content C:\xampp\apache\logs\access.log | Where-Object {$_ -match $code -and $_ -match $page -and $_ -match $browser}
 
 $regex = [regex] "[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3}"
 
-$ipsUnorganized = $regex.Matches($notfounds)
+if($notfounds) {
+	$ipsUnorganized = $regex.Matches($notfounds)
+}
 
 $ips = @()
 for($i=0; $i -lt $ipsUnorganized.Count; $i++){
@@ -12,3 +16,6 @@ for($i=0; $i -lt $ipsUnorganized.Count; $i++){
 $ipsoften = $ips | Where-Object { $_.IP -ilike "10.*" }
 $counts = $ipsoften | Group-Object -Property IP
 $counts | Select-Object Count, Name
+}
+
+addressGetter -page page1.html -code 200 -browser Chrome

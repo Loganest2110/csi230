@@ -17,5 +17,3 @@ $ipsoften = $ips | Where-Object { $_.IP -ilike "10.*" }
 $counts = $ipsoften | Group-Object -Property IP
 $counts | Select-Object Count, Name
 }
-
-addressGetter -page page1.html -code 200 -browser Chrome

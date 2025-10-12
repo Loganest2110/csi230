@@ -148,16 +148,17 @@ while($operation){
     }
 
    elseif($choice -eq 0){
+	function displayAtRiskUsers() {
+           $days = Read-Host -Prompt "Please enter the amount of days back you want to check."
 
-        $days = Read-Host -Prompt "Please enter the amount of days back you want to check."
-
-	$userLogins = getFailedLogins $days
+	   $userLogins = getFailedLogins $days
 	
-	$userLogins = $userLogins | Group-Object | Select-Object Name, Count
+	   $userLogins = $userLogins | Group-Object | Select-Object Name, Count
 
-	foreach($userLogin in $userLogins) {
-	   if($userLogin.Count -gt 10) {
-	      Write-Host "$userLogin.Name `n" | Out-String
+	   foreach($userLogin in $userLogins) {
+	      if($userLogin.Count -gt 10) {
+	         Write-Host "$userLogin.Name `n" | Out-String
+	      }
 	   }
 	}
    }
